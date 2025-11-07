@@ -6,7 +6,7 @@ on:
             # This workflow trigger event identifies with the triggering branch
             # being "release/*" even though the autoPR branch triggered the
             # original PR.
-            - 'release/*
+            - 'release/*'
 
 jobs:
     delete-autopr-branch:
