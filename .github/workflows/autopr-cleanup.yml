@@ -1,8 +1,7 @@
 name: "AutoPR: Clean up autopr branches"
 on:
     pull_request:
-        types:
-            - closed  # should cover merged PRs as well as closed PRs.
+        types: [closed]
         branches:
             - 'autopr/**'
 
