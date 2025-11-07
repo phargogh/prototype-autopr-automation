@@ -21,9 +21,9 @@ jobs:
             - run: |
                 set -x
 
-                BRANCH_TO_DELETE="${{ github.event.pull_request.head }}"
+                BRANCH_TO_DELETE="${{ github.event.pull_request.head.label }}"
 
-                if [[ "${{ github.event.pull_request.head }}" != "autopr/"* ]]
+                if [[ "$BRANCH_TO_DELETE" != "autopr/"* ]]
                 then
                     echo "The branch merged was not an autoPR branch.  Skipping branch deletion."
                     # Returning a zero exit code because this is expected, predictable behavior
