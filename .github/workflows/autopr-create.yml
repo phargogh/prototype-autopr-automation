@@ -7,6 +7,9 @@ on:
         branches:
             # Triggered when PR into this branch is closed.
             - main
+    push:
+        branches:
+            - main
 
 jobs:
     create-pr-into-release:
@@ -31,9 +34,16 @@ jobs:
                   # runner as of 2025-11-07.
                   set -x
 
-                  PR_NUM=${{ github.event.pull_request.number }}
-                  PR_USERNAME=${{ github.event.pull_request.user.login }}
-                  echo "Latest PR on main ($PR_NUM) was authored by $PR_USERNAME."
+                  if [[ "${{ github.event_name }}" == "pull_request" ]]
+                      PR_NUM="${{ github.event.pull_request.number }}"
+                      PR_USERNAME="${{ github.event.pull_request.user.login }}"
+                      echo "Latest PR on main ($PR_NUM) was authored by $PR_USERNAME."
+                  else
+                      # event_name is presumed to have been a push.
+                      # A push could include a bunch of commits, so just get
+                      # the login name of the user that pushed
+                      PR_USERNAME="${{ github.event.push.pusher.username }}"
+                  fi
 
                   # Using grep with pattern ^release filters out any autorelease branches.
                   # If no release branches are found, exit github actions.
