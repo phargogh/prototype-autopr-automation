@@ -57,7 +57,7 @@ jobs:
 
                         # Create a new autopr branch.
                         SHORTREV=$(git rev-parse main)
-                        AUTOPR_BRANCH = "autopr/${SHORTREV}-${BRANCH}"
+                        AUTOPR_BRANCH="autopr/${SHORTREV}-${BRANCH}"
                         git checkout -b "$(AUTOPR_BRANCH)"
                         git push ${AUTOPR_BRANCH}
 
