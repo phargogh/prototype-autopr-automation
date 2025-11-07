@@ -79,6 +79,7 @@ jobs:
                         # This PR will be assigned to $GITHUB_ACTOR, which should be
                         # the person who merged the PR that caused this commit to be
                         # created. Others could of course be assigned later.
+                        FAILED=0
                         gh pr create \
                             --head ${AUTOPR_BRANCH} \
                             --base ${RELEASE_BRANCH} \
@@ -86,7 +87,14 @@ jobs:
                             --assignee "${PR_USERNAME}" \
                             --label "auto" \
                             --title "${PR_TITLE}" \
-                            --body-file $PR_BODY_FILE || ERRORSPRESENT=$(($ERRORSPRESENT | $?))
+                            --body-file $PR_BODY_FILE || FAILED=1
+
+                        if [[ $FAILED -eq 1 ]]
+                        then
+                            echo "PR failed; deleting autopr branch"
+                            git branch -D ${AUTOPR_BRANCH}
+                            ERRORSPRESENT=$((${ERRORSPRESENT} | 1))
+                        fi
                     done
 
                     if [[ $ERRORSPRESENT -gt 0 ]]
