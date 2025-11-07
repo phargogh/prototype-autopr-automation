@@ -2,8 +2,8 @@ name: "AutoPR: Clean up autopr branches"
 on:
     pull_request:
         types: [closed]
-        branches:
-            - 'autopr/**'
+        #branches:
+        #    - 'autopr/**'
 
 jobs:
     delete-autopr-branch:
@@ -13,4 +13,25 @@ jobs:
         permissions:
             contents: write
         steps:
-            - run: git push -d origin ${{ github.ref_name }}
+            - uses: actions/checkout@v5
+
+            - run: |
+                # This is the PR number that was just closed.
+                # It has the form <pr_num>/merge
+                PR_NUM=$(echo ${{ github.ref_name }} | tr -d '/merge')
+
+                # Get the branch name from the PR by checking it out first
+                gh pr checkout "${PR_NUM}"
+
+                # Get the name of the current branch
+                BRANCH_TO_DELETE="$(git branch --show-current)"
+
+                # Delete the branch on github.
+                # The local copy of the branch doesn't matter.
+                git push -d ${{ github.repositoryUrl }} "$BRANCH_TO_DELETE"
+
+                # If someone wants to restore the branch, they can do so in the
+                # PR itself for as long as github allows it.  As of 2013 they
+                # were not cleaning up these branches
+                # (https://stackoverflow.com/a/17954767), but things may have
+                # changed since then.
