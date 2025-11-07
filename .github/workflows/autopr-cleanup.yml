@@ -2,8 +2,8 @@ name: "AutoPR: Clean up autopr branches"
 on:
     pull_request:
         types: [closed]
-        #branches:
-        #    - 'autopr/**'
+        branches:
+            - 'autopr/**'
 
 jobs:
     delete-autopr-branch:
