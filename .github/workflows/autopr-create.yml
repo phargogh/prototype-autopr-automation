@@ -9,7 +9,7 @@ on:
 jobs:
     create-pr:
         # if: github.repository == 'natcap/invest'
-        name: PR main into release/**
+        name: "PR main into release branches"
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5
