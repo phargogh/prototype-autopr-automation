@@ -94,7 +94,7 @@ jobs:
                         if [[ $FAILED -eq 1 ]]
                         then
                             echo "PR failed; deleting autopr branch"
-                            git branch -D ${AUTOPR_BRANCH}
+                            git push -d origin ${AUTOPR_BRANCH}
                             ERRORSPRESENT=$((${ERRORSPRESENT} | 1))
                         fi
                     done
