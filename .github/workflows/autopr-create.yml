@@ -9,7 +9,7 @@ on:
 jobs:
     create-pr:
         # if: github.repository == 'natcap/invest'
-        name: "PR main into release branches"
+        name: "AutoPR main into release branches"
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -60,12 +60,13 @@ jobs:
 
                         # Create a new autopr branch.
                         SHORTREV=$(git rev-parse --short main)
-                        AUTOPR_BRANCH="autopr/${SOURCE_BRANCH}-rev${SHORTREV}-into-${BRANCH}"
+                        CLEAN_BRANCH=$(echo "$BRANCH" | tr '/' '-')
+                        AUTOPR_BRANCH="autopr/${SOURCE_BRANCH}-rev${SHORTREV}-into-${CLEAN_BRANCH}"
                         git checkout -b "${AUTOPR_BRANCH}"
                         git push origin ${AUTOPR_BRANCH}
 
                         export RELEASE_BRANCH=$BRANCH  # needed for envsubst
-                        export AUTOPR_BRANCH
+                        export AUTOPR_BRANCH  # needed for envsubst
                         PR_BODY_FILE=pr_body.txt
                         cat .github/auto-main-into-release-pr-body.md | envsubst > $PR_BODY_FILE
                         cat $PR_BODY_FILE  # for debugging
