@@ -22,10 +22,11 @@ jobs:
 
                 # This is the PR number that was just closed.
                 # It has the form <pr_num>/merge
-                PR_NUM=$(echo ${{ github.ref_name }} | sed 's|/merge||g')
+                #PR_NUM=${{ github.event.pull_request.number }}
 
-                # Get the branch name from the PR by checking it out first
-                gh pr checkout "${PR_NUM}"
+                # Get the branch name from the PR by checking it out first.
+                # This will be the PR that triggered the workflow.
+                gh pr checkout ${{ github.event.pull_request.number }}
 
                 # Get the name of the current branch
                 BRANCH_TO_DELETE="$(git branch --show-current)"
