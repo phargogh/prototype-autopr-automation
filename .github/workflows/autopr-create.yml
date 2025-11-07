@@ -59,7 +59,7 @@ jobs:
                         SHORTREV=$(git rev-parse --short main)
                         AUTOPR_BRANCH="autopr/${SHORTREV}-${BRANCH}"
                         git checkout -b "${AUTOPR_BRANCH}"
-                        git push ${AUTOPR_BRANCH}
+                        git push origin ${AUTOPR_BRANCH}
 
                         export RELEASE_BRANCH=$BRANCH  # needed for envsubst
                         PR_BODY_FILE=pr_body.txt
