@@ -1,0 +1,16 @@
+name: "AutoPR: Clean up autopr branches"
+on:
+    pull_request:
+        types: [closed]
+        #branches:
+        #    - 'autopr/**'
+
+jobs:
+    delete-autopr-branch:
+        # if: github.repository == 'natcap/invest'
+        name: "AutoPR delete merged autopr branch"
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - run: git push -d origin ${{ github.ref_name }}
