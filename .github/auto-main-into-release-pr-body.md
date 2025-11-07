@@ -29,10 +29,5 @@ All changes pushed in this way will appear in this PR.
 The workflow defining this PR is located at
 `.github/workflows/autopr-create.yml`.  In short, this PR
 was created because there was a push to `$SOURCE_BRANCH` that triggered this
-workflow such as:
-
-* Other pull requests being merged into `$SOURCE_BRANCH`
-* Automated releases on `$SOURCE_BRANCH`
-* Any manual push to `$SOURCE_BRANCH`, if ever that happens (which shouldn't be the
-  case given our branch protections)
+workflow.
 </sub>
