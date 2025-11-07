@@ -18,6 +18,10 @@ jobs:
         permissions:
             contents: write
         steps:
+            # We do need the repo to be checked out to be able to refer to an
+            # origin.  Shallow clone is fine.
+            - uses: actions/checkout@v5
+
             - run: |
                 set -x
 
