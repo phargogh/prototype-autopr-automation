@@ -21,7 +21,9 @@ jobs:
             - run: |
                 set -x
 
-                BRANCH_TO_DELETE="${{ github.event.pull_request.head.label }}"
+                # head.ref points to <username>:<branchname>
+                # ref points to <branchname>
+                BRANCH_TO_DELETE="${{ github.event.pull_request.head.ref }}"
 
                 if [[ "$BRANCH_TO_DELETE" != "autopr/"* ]]
                 then
