@@ -1,7 +1,7 @@
-Merge `$SOURCE_BRANCH` into `$RELEASE_BRANCH`.
+Merge `$SOURCE_BRANCH` into `$RELEASE_BRANCH` $PR_MESSAGE
 
 This PR has been triggered in an effort to update `$RELEASE_BRANCH` with the
-changes that were just merged into `$SOURCE_BRANCH`.
+changes that were just added to `$SOURCE_BRANCH`.
 
 You have write access to the branch `$AUTOPR_BRANCH` on this repo, so feel free
 to use this to resolve merge conflicts or make any needed changes before this
