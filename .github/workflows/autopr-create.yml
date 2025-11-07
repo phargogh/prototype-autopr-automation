@@ -65,6 +65,7 @@ jobs:
                         git push origin ${AUTOPR_BRANCH}
 
                         export RELEASE_BRANCH=$BRANCH  # needed for envsubst
+                        export AUTOPR_BRANCH
                         PR_BODY_FILE=pr_body.txt
                         cat .github/auto-main-into-release-pr-body.md | envsubst > $PR_BODY_FILE
                         cat $PR_BODY_FILE  # for debugging
