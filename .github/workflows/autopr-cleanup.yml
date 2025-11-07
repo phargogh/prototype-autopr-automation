@@ -18,25 +18,12 @@ jobs:
         permissions:
             contents: write
         steps:
-            - uses: actions/checkout@v5
-
             - run: |
                 set -x
 
-                # This is the PR number that was just closed.
-                # It has the form <pr_num>/merge
-                #PR_NUM=${{ github.event.pull_request.number }}
+                BRANCH_TO_DELETE="${{ github.event.pull_request.head }}"
 
-                # Get the branch name from the PR by checking it out first.
-                # This will be the PR that triggered the workflow.
-                gh pr checkout ${{ github.event.pull_request.number }}
-
-                # Get the name of the current branch
-                BRANCH_TO_DELETE="$(git branch --show-current)"
-
-                # Assert that the branch to delete is an autoPR branch.
-                # The * within [[ ]] notation allows for string pattern globbing.
-                if [[ "$BRANCH_TO_DELETE" != "autopr/"* ]]
+                if [[ "${{ github.event.pull_request.head }}" != "autopr/"* ]]
                 then
                     echo "The branch merged was not an autoPR branch.  Skipping branch deletion."
                     # Returning a zero exit code because this is expected, predictable behavior
