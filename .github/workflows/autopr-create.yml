@@ -2,12 +2,14 @@ name: "AutoPR: Create PRs into release branches"
 env:
     SOURCE_BRANCH: main
 on:
-    push:
+    pull_request:
+        types: [closed]
         branches:
+            # Triggered when PR into this branch is closed.
             - main
 
 jobs:
-    create-pr:
+    create-pr-into-release:
         # if: github.repository == 'natcap/invest'
         name: "AutoPR main into release branches"
         runs-on: ubuntu-latest
@@ -24,17 +26,13 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   SOURCE_BRANCH: ${{ env.SOURCE_BRANCH }}
               run: |
-                  # NOTE ABOUT DEPS: gettext-base is required for envsubst
-                  # Both appear to be installed on the ubuntu runner as of 2025-11-07.
+                  # NOTE ABOUT DEPENDENCIES: gettext-base is required for
+                  # envsubst. Both deps appear to be installed on the ubuntu
+                  # runner as of 2025-11-07.
                   set -x
 
-                  # Get the number of the last PR merged into main.
-                  # This assumes that the default PR message was used and includes
-                  # the pattern #[1-9][0-9]*.
-                  PR_NUM=$(git log -1 --pretty=%B main | head -n1 | egrep -o '#[1-9][0-9]*' | sed 's|#||g')
-
-                  # Get the username of the person who opened up the last PR into `main`.
-                  PR_USERNAME=$(gh pr view --json author $PR_NUM | jq -j '.author.login')
+                  PR_NUM=${{ github.event.pull_request.number }}
+                  PR_USERNAME=${{ github.event.pull_request.user.login }}
                   echo "Latest PR on main ($PR_NUM) was authored by $PR_USERNAME."
 
                   # Using grep with pattern ^release filters out any autorelease branches.
