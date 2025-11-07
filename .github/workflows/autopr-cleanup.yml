@@ -34,6 +34,15 @@ jobs:
                 # Get the name of the current branch
                 BRANCH_TO_DELETE="$(git branch --show-current)"
 
+                # Assert that the branch to delete is an autoPR branch.
+                # The * within [[ ]] notation allows for string pattern globbing.
+                if [[ "$BRANCH_TO_DELETE" != "autopr/"* ]]
+                then
+                    echo "The branch merged was not an autoPR branch.  Skipping branch deletion."
+                    # Returning a zero exit code because this is expected, predictable behavior
+                    exit 0
+                fi
+
                 # Delete the branch on github.
                 # The local copy of the branch doesn't matter.
                 git push -d origin "$BRANCH_TO_DELETE"
