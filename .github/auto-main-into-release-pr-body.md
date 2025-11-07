@@ -17,7 +17,9 @@ In your fork, run:
 
 ```shell
 git fetch upstream $AUTOPR_BRANCH
-# make and commit your changes
+# Make and commit your changes here.
+#
+# When changes are ready to go, continue by running this:
 git push upstream $AUTOPR_BRANCH
 ```
 
