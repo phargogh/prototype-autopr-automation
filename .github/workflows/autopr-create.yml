@@ -12,7 +12,7 @@ jobs:
         name: "PR main into release branches"
         runs-on: ubuntu-latest
         permissions:
-            contents: write
+            contents: write-all
         steps:
             - uses: actions/checkout@v5
               with:
